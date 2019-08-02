@@ -1,5 +1,15 @@
 workflow build_normalDB {
-  call CreateFoFN
+
+  Array[File] normal_covs
+  
+  scatter (normal_cov in normal_covs) {
+    call CreateFoFN {
+      input:
+        normal_cov = normal_cov
+    }
+    
+  }
+  
 	call CreateNormalDB {
 	  input:
 	    normalDB_list = CreateFoFN.fofn_list
@@ -20,11 +30,11 @@ workflow build_normalDB {
 
 task CreateFoFN {
   # Command parameters
-  Array[File]+ array_of_files
+  Array[File] normal_cov
   String fofn_name
 
   command <<<
-    mv ${write_lines(array_of_files)} ${fofn_name}.list
+    mv ${write_lines(normal_cov)} ${fofn_name}.list
   >>>
 
   output {
