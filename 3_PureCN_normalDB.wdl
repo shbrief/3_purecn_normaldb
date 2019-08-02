@@ -13,11 +13,11 @@ workflow build_normalDB {
   
 	call CreateNormalDB {
 	  input:
-	    normalDB_list = createFoFN.fofn_list
+	    normalDB_list = CreateFoFN.fofn_list
 	  }
 	
 	output {
-	  File normalDB_list = createFoFN.fofn_list
+	  Array[File] normalDB_list = CreateFoFN.fofn_list
 		File normalDB = CreateNormalDB.normalDB
 		File mappingBiase = CreateNormalDB.mappingBiase
 		File targetWeight = CreateNormalDB.targetWeight 
