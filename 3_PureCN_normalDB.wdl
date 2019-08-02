@@ -3,11 +3,12 @@ workflow build_normalDB {
   Array[File] normal_covs
   
   scatter (normal_cov in normal_covs) {
+    File normal_cov = normal_cov
+    
     call CreateFoFN {
       input:
         normal_cov = normal_cov
     }
-    
   }
   
 	call CreateNormalDB {
