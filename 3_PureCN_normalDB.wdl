@@ -31,7 +31,7 @@ workflow build_normalDB {
 
 task CreateFoFN {
   # Command parameters
-  Array[File] normal_cov
+  File normal_cov
   String fofn_name
 
   command <<<
