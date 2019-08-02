@@ -17,6 +17,7 @@ workflow build_normalDB {
 	  }
 	
 	output {
+	  File normalDB_list = createFoFN.fofn_list
 		File normalDB = CreateNormalDB.normalDB
 		File mappingBiase = CreateNormalDB.mappingBiase
 		File targetWeight = CreateNormalDB.targetWeight 
