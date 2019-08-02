@@ -13,7 +13,7 @@ workflow build_normalDB {
   
 	call CreateNormalDB {
 	  input:
-	    normalDB_list = CreateFoFN.fofn_list
+	    normalDB_list = createFoFN.fofn_list
 	  }
 	
 	output {
