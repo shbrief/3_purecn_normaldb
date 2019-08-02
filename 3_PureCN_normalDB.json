@@ -1,0 +1,9 @@
+{
+  "build_normalDB.CreateNormalDB.normal_panel": "File",
+  "build_normalDB.CreateNormalDB.outdir": "String",
+  "build_normalDB.CreateFoFN.array_of_files": "Array[File]+",
+  "build_normalDB.CreateNormalDB.disk_space_gb": "Int? (optional)",
+  "build_normalDB.CreateFoFN.fofn_name": "String",
+  "build_normalDB.CreateNormalDB.machine_mem_gb": "Int? (optional)"
+}
+
