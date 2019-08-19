@@ -1,23 +1,13 @@
 workflow build_normalDB {
 
-  Array[File] normal_covs
-  
-  scatter (normal_cov in normal_covs) {
-    File normal_cov = normal_cov
-    
-    call CreateFoFN {
-      input:
-        normal_cov = normal_cov
-    }
-  }
-  
+	call CreateFoFN
 	call CreateNormalDB {
 	  input:
 	    normalDB_list = CreateFoFN.fofn_list
 	  }
 	
 	output {
-	  Array[File] normalDB_list = CreateFoFN.fofn_list
+	  File normalDB_list = CreateFoFN.fofn_list
 		File normalDB = CreateNormalDB.normalDB
 		File mappingBiase = CreateNormalDB.mappingBiase
 		File targetWeight = CreateNormalDB.targetWeight 
@@ -32,7 +22,7 @@ workflow build_normalDB {
 
 task CreateFoFN {
   # Command parameters
-  File normal_cov
+  Array[String] normal_cov
   String fofn_name
 
   command <<<
