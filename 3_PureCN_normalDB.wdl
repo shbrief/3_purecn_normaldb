@@ -22,11 +22,11 @@ workflow build_normalDB {
 
 task CreateFoFN {
   # Command parameters
-  Array[String] normal_cov
+  Array[String] loess
   String fofn_name
 
   command <<<
-    mv ${write_lines(normal_cov)} ${fofn_name}.list
+    mv ${write_lines(loess)} ${fofn_name}.list
   >>>
 
   output {
