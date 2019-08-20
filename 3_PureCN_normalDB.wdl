@@ -49,7 +49,7 @@ task CreateNormalDB {
 	Int disk_size = ceil(size(normal_panel, "GB")) + 20
 
 	command <<<
-		Rscript /usr/local/lib/R/site-library/PureCN/extdata/Coverage.R \
+		Rscript /usr/local/lib/R/site-library/PureCN/extdata/NormalDB.R \
 		--outdir ${outdir} \
 		--coveragefiles ${normalDB_list} \
 		--normal_panel ${normal_panel} \
