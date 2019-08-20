@@ -1,13 +1,8 @@
 workflow build_normalDB {
 
-	call CreateFoFN
-	call CreateNormalDB {
-	  input:
-	    normalDB_list = CreateFoFN.fofn_list
-	  }
-	
+	call CreateNormalDB
 	output {
-	  File normalDB_list = CreateFoFN.fofn_list
+	  File normalDB_list = CreateNormalDB.normalDB_list
 		File normalDB = CreateNormalDB.normalDB
 		File mappingBiase = CreateNormalDB.mappingBiase
 		File targetWeight = CreateNormalDB.targetWeight 
@@ -20,39 +15,27 @@ workflow build_normalDB {
     }
 }
 
-task CreateFoFN {
-  # Command parameters
+task CreateNormalDB {
+  # Create a file list
   Array[String] loess
   String fofn_name
-
-  command <<<
-    mv ${write_lines(loess)} ${fofn_name}.list
-  >>>
-
-  output {
-    File fofn_list = "${fofn_name}.list"
-  }
-
-  runtime {
-    docker: "ubuntu:latest"
-  }
-}
-
-task CreateNormalDB {
-	File normalDB_list   # a list of normal coverage files
+  
+  # Create normalDB
 	File normal_panel   # normals.merged.min5.vcf.gz
 	File normal_panel_idx   # normals.merged.min5.vcf.gz.tbi
 	String outdir   # .
-
+	
 	# Runtime parameters
 	Int? machine_mem_gb
 	Int? disk_space_gb
 	Int disk_size = ceil(size(normal_panel, "GB")) + 20
 
 	command <<<
+	  mv ${write_lines(loess)} ${fofn_name}.list
+	  
 		Rscript /usr/local/lib/R/site-library/PureCN/extdata/NormalDB.R \
 		--outdir ${outdir} \
-		--coveragefiles ${normalDB_list} \
+		--coveragefiles ${fofn_name}.list \
 		--normal_panel ${normal_panel} \
 		--genome hg19 --force
 	>>>
@@ -65,6 +48,7 @@ task CreateNormalDB {
 	}
 	
 	output {
+	  File normalDB_list = "${fofn_name}.list"
 		File normalDB = "normalDB.rds"
 		File mappingBiase = "mapping_bias.rds"
 		File targetWeight = "target_weight.txt"
