@@ -1,12 +1,6 @@
 workflow build_normalDB {
 
 	call CreateNormalDB
-	output {
-	  File normalDB_list = CreateNormalDB.normalDB_list
-		File normalDB = CreateNormalDB.normalDB
-		File mappingBiase = CreateNormalDB.mappingBiase
-		File targetWeight = CreateNormalDB.targetWeight 
-	  }
 	
 	meta {
 		author: "Sehyun Oh"
@@ -18,7 +12,7 @@ workflow build_normalDB {
 task CreateNormalDB {
   # Create a file list
   Array[File] loess
-  String fofn_name
+  String fname
   
   # Create normalDB
 	File normal_panel   # normals.merged.min5.vcf.gz
@@ -31,11 +25,11 @@ task CreateNormalDB {
 	Int disk_size = ceil(size(normal_panel, "GB")) + 20
 
 	command <<<
-	  mv ${write_lines(loess)} ${fofn_name}.list
+	  mv ${write_lines(loess)} ${fname}.list
 	  
 		Rscript /usr/local/lib/R/site-library/PureCN/extdata/NormalDB.R \
 		--outdir ${outdir} \
-		--coveragefiles ${fofn_name}.list \
+		--coveragefiles ${fname}.list \
 		--normal_panel ${normal_panel} \
 		--genome hg19 --force
 	>>>
@@ -48,9 +42,9 @@ task CreateNormalDB {
 	}
 	
 	output {
-	  File normalDB_list = "${fofn_name}.list"
-		File normalDB = "normalDB.rds"
-		File mappingBiase = "mapping_bias.rds"
-		File targetWeight = "target_weight.txt"
+	  File normalDB_list = "${fname}.list"
+		File normalDB = "${fname}_normalDB.rds"
+		File mappingBiase = "${fname}_mapping_bias.rds"
+		File targetWeight = "${fname}_target_weight.txt"
 	}
 }
