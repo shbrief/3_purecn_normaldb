@@ -41,6 +41,7 @@ task CreateFoFN {
 task CreateNormalDB {
 	File normalDB_list   # a list of normal coverage files
 	File normal_panel   # normals.merged.min5.vcf.gz
+	File normal_panel_idx   # normals.merged.min5.vcf.gz.tbi
 	String outdir   # .
 
 	# Runtime parameters
