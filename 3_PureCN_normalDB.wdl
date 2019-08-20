@@ -26,6 +26,7 @@ task CreateNormalDB {
 
 	command <<<
 	  mv ${write_lines(loess)} ${fname}.list
+	  mkdir ${outdir}
 	  
 		Rscript /usr/local/lib/R/site-library/PureCN/extdata/NormalDB.R \
 		--outdir ${outdir} \
@@ -43,8 +44,8 @@ task CreateNormalDB {
 	
 	output {
 	  File normalDB_list = "${fname}.list"
-		File normalDB = "${fname}_normalDB.rds"
-		File mappingBiase = "${fname}_mapping_bias.rds"
-		File targetWeight = "${fname}_target_weight.txt"
+		File normalDB = "normalDB.rds"
+		File mappingBiase = "mapping_bias.rds"
+		File targetWeight = "target_weight.txt"
 	}
 }
