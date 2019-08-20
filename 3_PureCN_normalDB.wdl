@@ -17,7 +17,7 @@ workflow build_normalDB {
 
 task CreateNormalDB {
   # Create a file list
-  Array[String] loess
+  Array[File] loess
   String fofn_name
   
   # Create normalDB
