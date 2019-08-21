@@ -1,7 +1,5 @@
 workflow build_normalDB {
-
 	call CreateNormalDB
-	
 	meta {
 		author: "Sehyun Oh"
         email: "shbrief@gmail.com"
@@ -18,6 +16,7 @@ task CreateNormalDB {
 	File normal_panel   # normals.merged.min5.vcf.gz
 	File normal_panel_idx   # normals.merged.min5.vcf.gz.tbi
 	String outdir   # .
+	String genome   # hg19
 	
 	# Runtime parameters
 	Int? machine_mem_gb
@@ -32,7 +31,7 @@ task CreateNormalDB {
 		--outdir ${outdir} \
 		--coveragefiles ${fname}.list \
 		--normal_panel ${normal_panel} \
-		--genome hg19 --force
+		--genome ${genome} --force
 	>>>
 
 	runtime {
@@ -44,8 +43,8 @@ task CreateNormalDB {
 	
 	output {
 	  File normalDB_list = "${fname}.list"
-		File normalDB = "normalDB.rds"
-		File mappingBiase = "mapping_bias.rds"
-		File targetWeight = "target_weight.txt"
+		File normalDB = "normalDB_${genome}.rds"
+		File mappingBiase = "mapping_bias_${genome}.rds"
+		File targetWeight = "interval_weights_${genome}.txt"
 	}
 }
